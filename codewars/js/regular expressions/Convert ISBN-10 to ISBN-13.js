@@ -31,3 +31,18 @@
 
 // return "978-1-85326-158-9"
 
+function isbnConverter(isbn) {
+  let isbn13 = "978-" + isbn.slice(0, -1);
+  return isbn13 + getCheckDigit(isbn13.match(/\d/g));
+}
+
+function getCheckDigit(digits) {
+  let sum = digits.reduce((acc, curr, i) => {
+              curr *= (i % 2) ? 3 : 1;
+              acc += curr;
+              return acc;
+            }, 0)
+  
+  return (sum % 10) ? 10 - (sum % 10): 0;
+}
+
