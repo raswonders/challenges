@@ -1,6 +1,9 @@
 function wordCount(s) {
   const bannedRE = /^(a|the|on|at|of|upon|in|as)$/i
-  return s.match(/[a-z]+/ig)
+  
+  let words = s.match(/[a-z]+/ig) || [];
+  
+  return words
           .filter(item => !bannedRE.test(item))
           .length;
 }
