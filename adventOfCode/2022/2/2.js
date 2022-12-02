@@ -6,28 +6,54 @@ fs.readFile("./input.txt", "utf8", (err, data) => {
     return;
   }
 
-  console.log("My total score is:", data.split("\n")
-                                        .map(item => item.split(" "))
-                                        .map(item => awardPoints(item))
-                                        .reduce((acc, curr) => acc += curr));
+  console.log(
+    "Naive (part1) score is:",
+    data
+      .split("\n")
+      .map(item => item.split(" "))
+      .map(item => awardPointsNaive(item))
+      .reduce((acc, curr) => (acc += curr))
+  );
+
+  console.log(
+    "Correct (part2) score is:",
+    data
+      .split("\n")
+      .map(item => item.split(" "))
+      .map(item => awardPointsCorrect(item))
+      .reduce((acc, curr) => (acc += curr))
+  );
 });
 
-function awardPoints(game) {
+function awardPointsCorrect(game) {
   let points = 0;
+  
+  if (game[1] === 'X') {
+    points += 0;
+    if (game[0] === 'A') points += 3;
+    if (game[0] === 'B') points += 1;
+    if (game[0] === 'C') points += 2;
+  }
 
-  // award points for win (6) lose (0) or draw (3)
-  // if they=A
-  // if I=X its draw
-  // if I=Y its win
-  // if I=Z its lose
-  // if they=B
-  // if I=X its lose
-  // if I=Y its draw
-  // if I=Z its win
-  // if they=C
-  // if I=X its win
-  // if I=Y its lose
-  // if I=Z its draw
+  if (game[1] === 'Y') {
+    points += 3;
+    if (game[0] === 'A') points += 1;
+    if (game[0] === 'B') points += 2;
+    if (game[0] === 'C') points += 3;
+  }
+
+  if (game[1] === 'Z') {
+    points += 6;
+    if (game[0] === 'A') points += 2;
+    if (game[0] === 'B') points += 3;
+    if (game[0] === 'C') points += 1;
+  }
+
+  return points;
+}
+
+function awardPointsNaive(game) {
+  let points = 0;
 
   if (game[0] === "A") {
     if (game[1] === "X") points += 3;
