@@ -6,19 +6,10 @@ fs.readFile("./input.txt", "utf8", (err, data) => {
     return;
   }
 
-  // readin the input data
-  // transform data into array of rucksacks
-  // for each rucksack
-  // divide the rucksack in half
-  // slice(0, length/2)
-  // slice(length/2)
-  // identify element which is in both compartments
-  // for each element in compartment one check if it's not in other compartment
-  // if it is add its priority value to total
-
+  // part 1
   data = data.split("\n");
 
-  const elements = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const priority = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let total = 0;
   for (let rucksack of data) {
     let edge = rucksack.length / 2;
@@ -27,11 +18,35 @@ fs.readFile("./input.txt", "utf8", (err, data) => {
 
     for (let elem of comp1) {
       if (comp2.includes(elem)) {
-        total += elements.indexOf(elem) + 1;
+        total += priority.indexOf(elem) + 1;
         break;
       }
     }
   }
 
   console.log(total);
+
+  let group;
+  let groups = [];
+  while ((group = data.splice(0, 3)) && group.length > 0) {
+    groups.push(group)
+  }
+
+  let groupTotal = 0;
+  for (group of groups) {
+    let rucksack1,
+        rucksack2,
+        rucksack3;
+
+    [rucksack1, rucksack2, rucksack3] = group;
+
+    for (elem of rucksack1.split('')) {
+      if (rucksack2.includes(elem) && rucksack3.includes(elem)) {
+        groupTotal += priority.indexOf(elem) + 1; 
+        break;
+      }
+    }
+  }
+
+  console.log(groupTotal);
 });
