@@ -33,12 +33,12 @@ fs.readFile("./input.txt", "utf8", (err, data) => {
       let dirs = [];
       for (let node of this.preOrderTraversal()) {
         if (node.children.length) {
-          dirs.push([node.name, this.getDirSize(node)])
+          dirs.push([node.name, this.getDirSize(node)]);
         }
       }
 
       if (max) {
-        dirs = dirs.filter(dir => dir[1] <= max)
+        dirs = dirs.filter(dir => dir[1] <= max);
       }
 
       return dirs;
@@ -72,13 +72,12 @@ fs.readFile("./input.txt", "utf8", (err, data) => {
         if (node.name === childName) return node;
       }
 
-      throw (`${childName} wasn't found`)
+      throw `${childName} wasn't found`;
     }
 
     appendChild(parent, childName, size) {
       parent.children.push(new TreeNode(childName, size, parent));
     }
-
   }
 
   function isCommand(str) {
@@ -112,13 +111,29 @@ fs.readFile("./input.txt", "utf8", (err, data) => {
       let fileRegExp = /^((?<size>\d+)|dir)\s+(?<name>[\w.-_]+)$/;
       let file = line.match(fileRegExp) ? line.match(fileRegExp).groups : {};
       file.size = file.size ? file.size : 0;
-      tree.appendChild(workingDir, file.name, Number(file.size))
+      tree.appendChild(workingDir, file.name, Number(file.size));
     }
   }
 
   let dirs = tree.getDirectories(100000);
-  let sizes = dirs.map(item => item[1])
-  let sum = sizes.reduce((curr, acc) => acc += curr)
+  let sizes = dirs.map(item => item[1]);
+  let sum = sizes.reduce((curr, acc) => (acc += curr));
 
-  console.log(sum)
+  console.log("Sum of dirs (size < 100000)", sum);
+
+  const diskSize = 70000000;
+  const updateSize = 30000000;
+  const filesystemSize = tree.getDirSize(tree.root);
+  const freeSpace = diskSize - filesystemSize;
+  const spaceRequired = updateSize - freeSpace;
+
+  if (spaceRequired > 0) {
+    let dirSize = tree
+      .getDirectories()
+      .map(dir => dir[1])
+      .sort((a, b) => a - b)
+      .find(size => size >= spaceRequired);
+
+    console.log("Size of folder to be removed", dirSize)
+  }
 });
