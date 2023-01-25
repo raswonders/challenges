@@ -1,36 +1,26 @@
 function findEmirp(n){
-  let digitCount = n.toString().length;
-  let primes = sieveOfEratosthenes(Math.pow(10, digitCount));
-  let primesInRange = primes.filter(prime => prime <= n)
-
-  let emirps = primesInRange.filter((prime, i) => {
-    let reversePrime =  Number(String(prime).split("").reverse().join(""));
-    let isPalindrom = (prime === reversePrime);
-    if (isPalindrom) return false;
-    return primes.includes(reversePrime);
-  })
-  
-  
-  return [emirps.length,
-          Math.max(...emirps),
-          emirps.reduce((acc, curr) => acc += curr)];
+  let emirps = generatePrimes(n).filter(isEmirp);
+  return emirps.length ? [emirps.length, Math.max.apply(null, emirps), emirps.reduce((acc, cur) => acc+cur, 0)] : [0, 0, 0];
 }
 
-function sieveOfEratosthenes(n) {
-  let primes = new Array(n + 1).fill(true);
-  primes[0] = false;
-  primes[1] = false;
-  for (let i = 2; i <= Math.sqrt(n); i++) {
-    for (let j = 2; i * j <= n; j++) {
-      primes[i * j] = false;
-    }
+function generatePrimes(n) {
+  let arr = [];
+  for (let i=1; i<=n; i++) {
+    if (isPrime(i)) arr.push(i);
   }
-
-  let result = [];
-  for (let i = 0; i < primes.length; i++) {
-    if (primes[i]) {
-      result.push(i);
-    }
-  }
-  return result;
+  return arr;
 }
+
+function isPrime(num) {
+  if (num % 2 === 0 ) return false;
+  let max = Math.sqrt(num);
+  for (let i=3; i<=max; i+=2) {
+    if (num % i === 0) return false;
+  }
+  return true;
+}
+
+function isEmirp(num) {
+  let numReversed = Number((num.toString()).split('').reverse().join(''));
+  if (num === numReversed) return false;
+  return isPrime(numReversed);
