@@ -24,3 +24,4 @@ function isEmirp(num) {
   let numReversed = Number((num.toString()).split('').reverse().join(''));
   if (num === numReversed) return false;
   return isPrime(numReversed);
+}
