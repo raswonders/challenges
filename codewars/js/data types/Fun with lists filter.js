@@ -15,7 +15,7 @@ function filter(head, predicate) {
 }
 
 
-// recursion solution
+// recursive solution
 
 function filter(head, predicate) {
   if (head === null) return null;
