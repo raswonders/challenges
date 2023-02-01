@@ -13,3 +13,14 @@ function filter(head, predicate) {
   }
   return newHead;
 }
+
+
+// recursion solution
+
+function filter(head, predicate) {
+  if (head === null) return null;
+  
+  return predicate(head.data) 
+    ? new Node(head.data, filter(head.next, predicate))
+    : filter(head.next, predicate);
+}
