@@ -1,27 +1,20 @@
-const f = n => largestPrimeWithEvenDigits(n - 1);
-  
-function largestPrimeWithEvenDigits(n, primeCandidates=[]) {
-  if (n <= 1) return null
-  
-  if (isPrime(n)) {
-    if (evenDigits(n) === digits(n) - 1) {
-      if (primeCandidates.length === 0) return n;
-      else return evenDigits(n) > evenDigits(primeCandidates[0]) 
-                    ? n
-                    : primeCandidates[0];
+const f = n => largestPrimeWithEvenDigits(n);
+
+function largestPrimeWithEvenDigits(n) {
+  let largestPrime = null;
+  let maxEvenDigits = 0;
+  for (--n; n > 1; n--) {
+    if (isPrime(n)) {
+      if (evenDigits(n) > maxEvenDigits) {
+        maxEvenDigits = evenDigits(n);
+        largestPrime = n;
+      }
     }
-    
-    if (evenDigits(n) === digits(n) - 2) {
-      primeCandidates.push(n);
-      return largestPrimeWithEvenDigits(n - 1, primeCandidates);
-    }
-  } 
-  return largestPrimeWithEvenDigits(n - 1, primeCandidates);
+  }
+  return largestPrime;
 }
 
 function isPrime(n) {
-  if (n <= 1) return false;
-  if (n <= 3) return true;
   if (n % 2 === 0 || n % 3 === 0) return false;
   let i = 5;
   while (i * i <= n) {
@@ -36,8 +29,4 @@ function evenDigits(n) {
           .split('')
           .filter(digit => digit % 2 === 0)
           .length
-}
-
-function digits(n) {
-  return String(n).length;
 }
