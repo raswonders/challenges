@@ -4,35 +4,49 @@ function openingTimes(date) {
 
   let [day, time] = date.split(' ');
   day = normalizeDay(day);
-  const dayIndex = weekdays.indexOf(day);
-  const nextDayIndex = (dayIndex + 1) % 7;
+  if (!isValidDay(day) || !isValidTime(time)) return 'Invalid time!';
 
-  if (isOpen(day, time)) {
-    const [_, close] = openHours[dayIndex];
+  let dayIndex = weekdays.indexOf(day);
+  let nextDayIndex = (dayIndex + 1) % 7;
+  
+  let [hours, minutes] = time.split(':');
+  hours = +hours;
+  minutes = +minutes;
+  let [open, close] = openHours[dayIndex];
+  let [openNext, _] = openHours[nextDayIndex];
+
+  if (isOpen(day, hours, minutes)) {
     return `Library closes at ${hoursToTime(close)}`;      
+  } else if (hours + minutes / 60 < open) {
+    return `Library opens: today ${hoursToTime(open)}`;
   } else {
     const nextDay = weekdays[nextDayIndex];
-    const [open, _] = openHours[nextDayIndex];
-    return `Library opens: ${nextDay} ${hoursToTime(open)}`;
+    return `Library opens: ${nextDay} ${hoursToTime(openNext)}`;
   }
 
-  function isOpen(day, time) {
+  function isOpen(day, hours, minutes) {
     let dayIndex = weekdays.indexOf(day);
     let [open, close] = openHours[dayIndex];
-    let [hours, minutes] = time.split(':');
-    hours = +hours;
-    minutes = +minutes;
     return hours + minutes / 60 >= open && hours + minutes / 60 < close;
   }
   
   function hoursToTime(hours) {
     const hoursInt = Math.floor(hours);
     const minutes = Math.round((hours - hoursInt) * 60);
-    return `${hoursInt}:${minutes < 10 ? '0' + minutes : minutes}`;
+    return `${hoursInt < 10 ? '0' + hoursInt : hoursInt}:${minutes < 10 ? '0' + minutes : minutes}`;
   }
   
   function normalizeDay(day) {
     return day[0].toUpperCase() + day.slice(1).toLowerCase();
+  }
+
+  function isValidDay(day) {
+    return weekdays.includes(day);
+  }
+
+  function isValidTime(time) {
+    const [hours, minutes] = time.split(':');
+    return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
   }
 }
 
