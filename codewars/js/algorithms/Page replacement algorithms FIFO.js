@@ -1,22 +1,13 @@
-function fifo(n, buffer) {
-	// INPUT n: number, buffer: array
-  // while buffer is not empty take a pageId from it
-  // if page with pageId is in memory
-    // then continue
-    // else if memory is full 
-      // then shift the array removing oldest page
-      // add page at the end of memory
-  // OUTPUT
-
-  const memory = [];
-  while (buffer.length > 0) {
-    let page = buffer.shift();
-    if (memory.includes(page)) continue;
-    else {
-      if (memory.length === n) memory.shift();
-      memory.push(page)
+unction fifo(n, buffer) { 
+  let oldestPage = 0;
+  let memory = buffer.reduce((mem, page) => {
+    if (!mem.includes(page)) {
+      mem[oldestPage] = page;
+      oldestPage++;
+      oldestPage %= n;
     }
-  }
+    return mem;
+  }, [])
 
   while (memory.length !== n) {
     memory.push(-1);
