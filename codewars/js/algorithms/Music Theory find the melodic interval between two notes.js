@@ -11,4 +11,3 @@ console.log(getInterval('G3', 'G4'))
 
 console.log(getInterval('A7', 'B6'))
 //7
-
