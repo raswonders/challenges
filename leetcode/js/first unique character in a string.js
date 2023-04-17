@@ -20,5 +20,3 @@ console.log(firstUniqChar("aaaaaabbbb"));
 
 console.log(firstUniqChar("loveleetcode"));
 // 2
-
-
