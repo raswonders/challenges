@@ -1,84 +1,22 @@
 import { LinkedList, ListNode } from "../../utils/linked-list.mjs";
 
 function mergeTwoLists(list1, list2) {
-  let n1 = copyNode(list1); 
-  let n2 = copyNode(list2); 
-  let head = null;
-  let tail = null;
-  while(n1 && n2) {
-    if (n1.val < n2.val) {
-      if (head) {
-        tail.next = n1;
-        tail = n1;
-      } else {
-        head = n1;
-        tail = head;
-      }
-      n1 = copyNode(n1.next);
-      continue;
-    }
-
-    if (n1.val > n2.val) {
-      if (head) {
-        tail.next = n2;
-        tail = n2;
-      } else {
-        head = n2;
-        tail = head;
-      }
-      n2 = copyNode(n2.next);
-      continue;
-    }
-
-    if (n1.val === n2.val) {
-      if (head) {
-        tail.next = n1;
-        n1 = copyNode(n1.next);
-        tail.next.next = n2;
-        tail = n2;
-      } else {
-        head = n1; 
-        tail = head;
-        n1 = copyNode(n1.next);
-        tail.next = n2;
-        tail = n2;
-      }
-      n2 = copyNode(n2.next);
-      continue;
-    }
-  }
-
-  if (n1) {
-    if (head) tail.next = copyList(n1)
-    else head = copyList(n1)
-  } 
-  if (n2) {
-    if (head) tail.next = copyList(n2)
-    else head = copyList(n2)
-  } 
-  return head;
-};
-
-function copyList(list) {
-  let pointer = copyNode(list);
-  let head = null;
-  let tail = null;
-  while (pointer) {
-    if (head) {
-      tail.next = pointer; 
-      tail = pointer;
+  let dummy = new ListNode(0);
+  let tail = dummy;
+  while (list1 && list2) {
+    if (list1.val < list2.val) {
+      tail.next = list1;
+      list1 = list1.next
     } else {
-      head = pointer;
-      tail = head;
-    } 
-    pointer = copyNode(pointer.next);
+      tail.next = list2;
+      list2 = list2.next;
+    }
+    tail = tail.next;
   }
-  return head;
-}
-
-function copyNode(node) {
-  return node ? new ListNode(node.val, node.next) : null;
-}
+  if (list1) tail.next = list1;
+  if (list2) tail.next = list2;
+  return dummy.next;
+} 
 
 
 //  EXAMPLES
