@@ -4,7 +4,7 @@ function hasSingleExclamationMark(str) {
     if (str[i] === "!") count++;
   }
 
-  return count === 1 ? true : false;
+  return count === 1;
 }
 
 function remove(string) {
