@@ -11,5 +11,8 @@
   "dependencies": {
     "chai": "^4.3.8",
     "mocha": "^10.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
