@@ -1,4 +1,4 @@
-unction fifo(n, buffer) { 
+function fifo(n, buffer) { 
   let oldestPage = 0;
   let memory = buffer.reduce((mem, page) => {
     if (!mem.includes(page)) {
