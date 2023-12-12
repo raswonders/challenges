@@ -25,4 +25,25 @@ const getDuplicate = (arr) => {
   }
 }
 
-console.log(getDuplicate(["a", "b", "c", "d", "c"]))
+const findMissingLetter = (str) => {
+  const hashTable = {};
+  for (let char of str) {
+    hashTable[char] = true; 
+  }
+
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  for (let char of alphabet) {
+    if (!hashTable[char]) return char;
+  }
+}
+
+const findFirstNonRepeating = (str) => {
+  const hashTable = {};
+  for (let char of str) {
+    hashTable[char] = hashTable[char] ? hashTable + 1 : 1;
+  }
+
+  for (let char of str) {
+    if (hashTable[char] === 1 ) return char;
+  }
+}
