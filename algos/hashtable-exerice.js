@@ -2,7 +2,6 @@ const intersection = (arr1, arr2) => {
   let [bigger, smaller] =
     arr1.length > arr2.length ? [arr1, arr2] : [arr2, arr1];
 
- 
   let hashTable = {};
   for (item of bigger) {
     hashTable[item] = true;
@@ -18,24 +17,24 @@ const intersection = (arr1, arr2) => {
 
 const getDuplicate = (arr) => {
   const hashTable = {};
-  
+
   for (item of arr) {
     if (hashTable[item]) return item;
-    else hashTable[item] = true; 
+    else hashTable[item] = true;
   }
-}
+};
 
 const findMissingLetter = (str) => {
   const hashTable = {};
   for (let char of str) {
-    hashTable[char] = true; 
+    hashTable[char] = true;
   }
 
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
   for (let char of alphabet) {
     if (!hashTable[char]) return char;
   }
-}
+};
 
 const findFirstNonRepeating = (str) => {
   const hashTable = {};
@@ -44,6 +43,6 @@ const findFirstNonRepeating = (str) => {
   }
 
   for (let char of str) {
-    if (hashTable[char] === 1 ) return char;
+    if (hashTable[char] === 1) return char;
   }
-}
+};
