@@ -90,7 +90,7 @@ const task2 = (universe) => {
     }
   }
 
-  const expandFactor = 1_000_000;
+  const expandFactor = 2;
   const universeRowDim = universe.length;
   const universeColDim = universe[0].length;
 
@@ -107,34 +107,25 @@ const task2 = (universe) => {
       expandCols.push(col);
   }
 
-  while (expandRows.length > 0) {
-    let row = expandRows.pop();
-
-    expandedGalaxies = galaxies.map((galaxy) => {
-      if (galaxy[0] > row) galaxy[0] += expandFactor;
-      return galaxy;
-    });
-  }
-
-  while (expandCols.length > 0) {
-    let col = expandCols.pop();
-
-    expandedGalaxies = galaxies.map((galaxy) => {
-      if (galaxy[1] > col) galaxy[1] += expandFactor;
-      return galaxy;
-    });
-  }
-
-  console.log(expandedGalaxies);
-
+  console.log("rows", expandRows, "cols", expandCols);
   let pairs = generatePairs(galaxies);
-  let paths = pairs.map((pair) => {
-    return (
-      Math.abs(pair[0][0] - pair[1][0]) + Math.abs(pair[0][1] - pair[1][1])
-    );
-  });
 
-  return paths.reduce((acc, curr) => acc + curr, 0);
+  total = 0;
+  for (let pair of pairs) {
+    let rowStart = Math.min(pair[0][0], pair[1][0]);
+    let rowEnd = Math.max(pair[0][0], pair[1][0]);
+    for (let row = rowStart; row < rowEnd; row++) {
+      total += row in expandRows ? expandFactor : 1;
+    }
+
+    let colStart = Math.min(pair[0][1], pair[1][1]);
+    let colEnd = Math.max(pair[0][1], pair[1][1]);
+    for (let col = colStart; col < colEnd; col++) {
+      total += col in expandCols ? expandFactor : 1;
+    }
+  }
+
+  return total;
 };
 
 // console.log(task1(data));
