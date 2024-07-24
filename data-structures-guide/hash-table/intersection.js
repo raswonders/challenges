@@ -15,7 +15,6 @@ function intersection(a, b) {
   for (item of b) {
     if (dict[item]) result.push(item);
   }
-
   return result;
 }
 
