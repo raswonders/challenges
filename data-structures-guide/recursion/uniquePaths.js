@@ -1,8 +1,13 @@
-function uniquePaths(rows, cols) {
+function uniquePaths(rows, cols, memo = {}) {
   if (rows === 1 && cols === 1) return 1;
   if (rows < 1 || cols < 1) return 0;
+  if (!memo[`${rows},${cols}`]) {
+    return (
+      uniquePaths(rows - 1, cols, memo) + uniquePaths(rows, cols - 1, memo)
+    );
+  }
 
-  return uniquePaths(rows - 1, cols) + uniquePaths(rows, cols - 1);
+  return memo[`${rows},${cols}`];
 }
 
 assert(uniquePaths(1, 1) === 1, "should be one");
