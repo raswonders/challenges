@@ -107,10 +107,12 @@ function replaceWithSucc(node) {
   return succNode;
 }
 
-export function traverse(node) {
+export function traverse(node, variant = "inorder") {
   if (!node) return;
 
-  traverse(node.left);
-  console.log(node.value);
-  traverse(node.right);
+  variant === "preorder" && console.log(node.value);
+  traverse(node.left, variant);
+  variant === "inorder" && console.log(node.value);
+  traverse(node.right, variant);
+  variant === "postorder" && console.log(node.value);
 }
