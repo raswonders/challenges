@@ -106,3 +106,11 @@ function replaceWithSucc(node) {
   node.value = succNode.value;
   return succNode;
 }
+
+export function traverse(node) {
+  if (!node) return;
+
+  traverse(node.left);
+  console.log(node.value);
+  traverse(node.right);
+}
