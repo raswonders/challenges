@@ -20,4 +20,18 @@ export class Trie {
     }
     return currentNode;
   }
+
+  insert(word) {
+    const currentNode = this.root;
+    for (let char of word) {
+      if (currentNode.children[char]) {
+        currentNode = currentNode.children[char];
+      } else {
+        const newNode = new TrieNode();
+        currentNode.children[char] = newNode;
+        currentNode = newNode;
+      }
+    }
+    currentNode.children["*"] = null;
+  }
 }

@@ -9,5 +9,3 @@ for (let val of sample) {
 console.log(root);
 deleteNode(0, root);
 console.log(root);
-
-
