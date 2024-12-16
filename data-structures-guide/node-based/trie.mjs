@@ -65,4 +65,18 @@ export class Trie {
       }
     }
   }
+
+  autocorrect(word) {
+    let currentNode = word || this.root;
+    let prefixFound = "";
+
+    for (let char of word) {
+      if (currentNode.children[char]) {
+        prefixFound += char;
+        currentNode = currentNode.childNode[char];
+      } else {
+        return prefixFound + this.collectAllWords([], currentNode)[0];
+      }
+    }
+  }
 }
