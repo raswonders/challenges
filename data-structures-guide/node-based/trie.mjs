@@ -54,4 +54,15 @@ export class Trie {
 
     return this.collectAllWords([], currentNode);
   }
+
+  traverse(node) {
+    const currentNode = node || this.root;
+
+    for (let [key, childNode] of Object.entries(currentNode.children)) {
+      console.log(key);
+      if (key !== "*") {
+        this.traverse(childNode);
+      }
+    }
+  }
 }
