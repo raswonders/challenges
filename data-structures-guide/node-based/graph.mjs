@@ -1,3 +1,5 @@
+import { Queue } from "../stack-queues/queue.mjs";
+
 export class Vertex {
   constructor(value) {
     this.value = value;
@@ -36,4 +38,27 @@ export class Vertex {
 
     return null;
   }
+
+  bfsTraverse(startingVertex) {
+    const queue = new Queue();
+    const visitedVertices = {};
+
+    visitedVertices[startingVertex] = true;
+    queue.enqueue(startingVertex);
+
+    while (queue.read()) {
+      const currentVertex = queue.dequeue();
+      console.log(currentVertex.value);
+
+      for (let adjacentVertex of currentVertex.adjacentVertices) {
+        if (!visitedVertices[adjacentVertex.value]) {
+          queue.enqueue(adjacentVertex);
+          visitedVertices[adjacentVertex.value] = true;
+        }
+      }
+    }
+  }
 }
+
+
+
