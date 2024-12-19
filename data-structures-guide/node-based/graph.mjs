@@ -60,7 +60,7 @@ export class Vertex {
   }
 }
 
-class weigthEdGraphVertex {
+export class WeigthedGraphVertex {
   constructor(value) {
     this.value = value;
     this.adjacentVertices = new Map();
@@ -71,7 +71,7 @@ class weigthEdGraphVertex {
   }
 }
 
-class City {
+export class City {
   constructor(name) {
     this.name = name;
     this.routes = new Map();
