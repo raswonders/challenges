@@ -60,5 +60,24 @@ export class Vertex {
   }
 }
 
+class weigthEdGraphVertex {
+  constructor(value) {
+    this.value = value;
+    this.adjacentVertices = new Map();
+  }
 
+  addAdjacentVertext(vertex, weight) {
+    this.adjacentVertices.set(vertex, weight);
+  }
+}
 
+class City {
+  constructor(name) {
+    this.name = name;
+    this.routes = new Map();
+  }
+
+  addRoute(city, price) {
+    this.routes.set(city, price);
+  }
+}
