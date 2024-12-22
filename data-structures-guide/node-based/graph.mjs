@@ -37,12 +37,36 @@ export function dfs(vertex, searchValue, adjacentVertices) {
 
   return null;
 }
-export function bfsTraverse(startingVertex) {
+
+export function bfs(vertex, searchValue) {
   const queue = new Queue();
   const visitedVertices = {};
 
-  visitedVertices[startingVertex] = true;
-  queue.enqueue(startingVertex);
+  visitedVertices[vertex] = true;
+  queue.enqueue(vertex);
+
+  while (queue.read()) {
+    const currentVertex = queue.dequeue();
+    if (currentVertex.value === searchValue) {
+      return currentVertex;
+    }
+
+    for (let adjacentVertex of currentVertex.adjacentVertices) {
+      if (!visitedVertices[adjacentVertex.value]) {
+        queue.enqueue(adjacentVertex);
+        visitedVertices[adjacentVertex.value] = true;
+      }
+    }
+  }
+
+  return null;
+}
+export function bfsTraverse(vertex) {
+  const queue = new Queue();
+  const visitedVertices = {};
+
+  visitedVertices[vertex.value] = true;
+  queue.enqueue(vertex);
 
   while (queue.read()) {
     const currentVertex = queue.dequeue();

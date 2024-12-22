@@ -1,4 +1,4 @@
-import { Vertex, bfsTraverse, dfsTraverse } from "./graph.mjs";
+import { Vertex, bfs } from "./graph.mjs";
 
 const a = new Vertex("a");
 const b = new Vertex("b");
@@ -49,4 +49,4 @@ n.addAdjacentVertex(i);
 o.addAdjacentVertex(j);
 p.addAdjacentVertex(n);
 
-dfsTraverse(a);
+console.log(bfs(a, "m"));
