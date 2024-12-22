@@ -6,19 +6,18 @@ export class Vertex {
     this.adjacentVertices = [];
   }
 
-  addAdjacentVertext(vertex) {
+  addAdjacentVertex(vertex) {
     this.adjacentVertices.push(vertex);
   }
 }
 
 export function dfsTraverse(vertex, visitedVertices = {}) {
-  visitedVertices[vertex] = true;
-
-  console.log(vertex);
+  visitedVertices[vertex.value] = true;
+  console.log(vertex.value);
 
   for (let adjacentVertex of vertex.adjacentVertices) {
-    if (!visitedVertices[adjacentVertex]) {
-      this.dfsTraverse(adjacentVertex, visitedVertices);
+    if (!visitedVertices[adjacentVertex.value]) {
+      dfsTraverse(adjacentVertex, visitedVertices);
     }
   }
 }
@@ -58,13 +57,13 @@ export function bfsTraverse(startingVertex) {
   }
 }
 
-export class WeigthedGraphVertex {
+export class WeightedGraphVertex {
   constructor(value) {
     this.value = value;
     this.adjacentVertices = new Map();
   }
 
-  addAdjacentVertext(vertex, weight) {
+  addAdjacentVertex(vertex, weight) {
     this.adjacentVertices.set(vertex, weight);
   }
 }

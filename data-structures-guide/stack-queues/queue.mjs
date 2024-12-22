@@ -15,7 +15,6 @@ export class Queue {
   }
 
   dequeue() {
-    this.data.shift();
-    return this.data;
+    return this.data.shift();
   }
 }
