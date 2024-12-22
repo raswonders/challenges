@@ -1,69 +1,63 @@
-import { City } from "./graph.mjs";
+import { Vertex } from "./graph.mjs";
+import { Queue } from "../stack-queues/queue.mjs";
 
-// setup
-const atlanta = new City("Atlanta");
-const boston = new City("Boston");
-const chicago = new City("Chicago");
-const denver = new City("Denver");
-const elPaso = new City("El Paso");
+const idris = new Vertex("Idris");
+const talia = new Vertex("Talia");
+const ken = new Vertex("Ken");
+const marco = new Vertex("Marco");
+const sasha = new Vertex("Sasha");
+const lina = new Vertex("Lina");
+const kamil = new Vertex("Kamil");
 
-atlanta.addRoute(boston, 100);
-atlanta.addRoute(denver, 160);
-boston.addRoute(chicago, 120);
-boston.addRoute(denver, 180);
-chicago.addRoute(elPaso, 80);
-denver.addRoute(chicago, 40);
-denver.addRoute(elPaso, 140);
-elPaso.addRoute(boston, 100);
+idris.addAdjacentVertex(talia);
+idris.addAdjacentVertex(kamil);
+talia.addAdjacentVertex(idris);
+talia.addAdjacentVertex(ken);
+ken.addAdjacentVertex(talia);
+ken.addAdjacentVertex(marco);
+marco.addAdjacentVertex(ken);
+marco.addAdjacentVertex(sasha);
+sasha.addAdjacentVertex(marco);
+sasha.addAdjacentVertex(lina);
+lina.addAdjacentVertex(kamil);
+lina.addAdjacentVertex(sasha);
+kamil.addAdjacentVertex(lina);
+kamil.addAdjacentVertex(idris);
 
-function dijkstraShortestPath(startCity, endCity) {
-  const minPriceTable = { [startCity.name]: 0 };
-  const visitedCities = {};
-  let unvisitedCities = [startCity];
-  const prevCityTable = {};
-  let currentCity = startCity;
-
-  while (unvisitedCities.length > 0) {
-    visitedCities[currentCity.name] = true;
-    unvisitedCities = unvisitedCities.filter((city) => city !== currentCity);
-
-    for (const adjacentCity of currentCity.routes.keys()) {
-      const priceToAdjacent = currentCity.routes.get(adjacentCity);
-      const priceThroughCurrentCity =
-        priceToAdjacent + minPriceTable[currentCity.name];
-
-      // plan to visit if not visited yet
-      if (!visitedCities[adjacentCity.name] && !unvisitedCities[adjacentCity]) {
-        unvisitedCities.push(adjacentCity);
+function dijkstraShortestPath(startVertex, endVertex) {
+  const minDistanceTable = {};
+  minDistanceTable[startVertex.value] = 0;
+  const prevVertexTable = {};
+  const unvisited = new Queue();
+  unvisited.enqueue(startVertex);
+  const visited = new Set();
+  while (unvisited.read()) {
+    const currentVertex = unvisited.dequeue();
+    visited.add(currentVertex.value);
+    for (let adjacentVertex of currentVertex.adjacentVertices) {
+      if (!visited.has(adjacentVertex.value)) {
+        unvisited.enqueue(adjacentVertex);
       }
 
-      // update lowest price and prev city when price lower
+      let distanceThroughCurrent = minDistanceTable[currentVertex.value] + 1;
       if (
-        !minPriceTable[adjacentCity.name] ||
-        priceThroughCurrentCity < minPriceTable[adjacentCity.name]
+        minDistanceTable[adjacentVertex.value] === undefined ||
+        minDistanceTable[adjacentVertex.value] > distanceThroughCurrent
       ) {
-        minPriceTable[adjacentCity.name] = priceThroughCurrentCity;
-        prevCityTable[adjacentCity.name] = currentCity.name;
-      }
-    }
-
-    // visit city with lowest price
-    let lowestPrice = Infinity;
-    for (let city of unvisitedCities) {
-      if (minPriceTable[city.name] < lowestPrice) {
-        lowestPrice = minPriceTable[city.name];
-        currentCity = city;
+        minDistanceTable[adjacentVertex.value] = distanceThroughCurrent;
+        prevVertexTable[adjacentVertex.value] = currentVertex.value;
       }
     }
   }
 
-  let cityName = endCity.name;
-  let shortestPath = [cityName];
-  while ((cityName = prevCityTable[cityName])) {
-    shortestPath.unshift(cityName);
+  let vertexValue = endVertex.value;
+  const path = [vertexValue];
+  while (prevVertexTable[vertexValue]) {
+    path.push(prevVertexTable[vertexValue]);
+    vertexValue = prevVertexTable[vertexValue];
   }
 
-  return shortestPath;
+  return path.reverse();
 }
 
-console.log(dijkstraShortestPath(atlanta, elPaso));
+console.log(dijkstraShortestPath(idris, lina));

@@ -1,5 +1,3 @@
-// Array based Queue
-
 export class Queue {
   constructor(...data) {
     this.data = [...data];
