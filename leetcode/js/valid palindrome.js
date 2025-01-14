@@ -18,18 +18,53 @@ function isPalindrome(phrase) {
   return true;
 }
 
+function isAlnum(char) {
+  let code = char.charCodeAt(0);
+  if (code >= 97 && code <= 122) {
+    return true;
+  }
+  if (code >= 65 && code <= 90) {
+    return true;
+  }
+  if (code >= 48 && code <= 57) {
+    return true;
+  }
+  return false;
+}
+
+// Two pointer solution - O(1) of extra memory
+function isPalindrome2(phrase) {
+  let i = 0;
+  let j = phrase.length - 1;
+  while (i < j) {
+    while (!isAlnum(phrase[i]) && i < j) {
+      i++;
+    }
+    while (!isAlnum(phrase[j]) && i < j) {
+      j--;
+    }
+    if (phrase[i].toLowerCase() !== phrase[j].toLowerCase()) {
+      return false;
+    }
+
+    i++;
+    j--;
+  }
+  return true;
+}
+
 // Examples
-console.log(isPalindrome(""));
+console.log(isPalindrome2(""));
 // true
 
-console.log(isPalindrome("a"));
+console.log(isPalindrome2("a"));
 // true
 
-console.log(isPalindrome("ab"));
+console.log(isPalindrome2("ab"));
 // false
 
-console.log(isPalindrome("A, a"));
+console.log(isPalindrome2("A, a"));
 // true
 
-console.log(isPalindrome("A man, a plan, a canal: Panama"));
+console.log(isPalindrome2("A man, a plan, a canal: Panama"));
 // true
