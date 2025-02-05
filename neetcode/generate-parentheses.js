@@ -2,7 +2,7 @@
 function generateStrings(n) {
   let chars = ["(", ")"];
   let strings = [""];
-  for (let i = 0; i < 2*n; i++) {
+  for (let i = 0; i < 2 * n; i++) {
     const tempStrings = [];
     for (let s of strings) {
       for (let c of chars) {
@@ -26,7 +26,7 @@ function isWellFormed(str) {
       opening++;
     } else if (char === ")") {
       if (opening <= 0) {
-        return false
+        return false;
       } else {
         opening--;
       }
@@ -40,9 +40,34 @@ function isWellFormed(str) {
   }
 }
 
-function generateParenthesis(n) {
+function generateParenthesisBrute(n) {
   return generateStrings(n).filter(str => isWellFormed(str));
 }
 
+function generateParenthesis(n) {
+  const solutions = [];
+
+  backtrack(0, 0, "");
+  function backtrack(open, closed, str) {
+    if (open < closed) {
+      return;
+    }
+
+    if (open > n || closed > n) {
+      return;
+    }
+
+    if (open === n && closed === n) {
+      solutions.push(str);
+    } else {
+      backtrack(open + 1, closed, str + "(");
+      backtrack(open, closed + 1, str + ")");
+    }
+  }
+  
+  return solutions;
+}
+
 // ['((()))', '(()())', '(())()', '()(())', '()()()']
-console.log(generateParenthesis(3));
+console.log("brute force:", generateParenthesis(3));
+console.log("backtracking:", generateParenthesis(3));
